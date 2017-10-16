@@ -1,0 +1,27 @@
+{
+  "name": "ato-2017-example",
+  "version": "1.0.0",
+  "description": "All conferences examples for the All things open 2017 talk",
+  "main": "index.js",
+  "scripts": {
+    "start" : "node index.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tato123/ato-2017-example.git"
+  },
+  "keywords": [
+    "Conference",
+    "Examples"
+  ],
+  "author": "Jonathan Fontanez <fontanezj1@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tato123/ato-2017-example/issues"
+  },
+  "homepage": "https://github.com/tato123/ato-2017-example#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
