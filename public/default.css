@@ -41,7 +41,7 @@ article {
 }
 
 article > section {
-    margin-top: 4em ;
+    margin-top: 2em ;
 }
 
 li {
@@ -55,4 +55,36 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+}
+.form-group > label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form-group > input {
+    padding: 5px;
+}
+
+.form-group > input[type="submit"] {
+    margin-top: 16px;
+}
+
+.pull-right > * {
+    float: right;
+}
+
+.pull-right:after {
+    display: block;
+    clear: both;
+}
+
+section {
+    padding-bottom: 1.333em;
 }
