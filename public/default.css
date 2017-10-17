@@ -88,3 +88,20 @@ a:hover {
 section {
     padding-bottom: 1.333em;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th {
+    text-align: left;
+    color: rgba(0,0,0,0.54);
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.54);
+}
+
+.flex-row {
+    display: flex;
+    flex-wrap: wrap;
+}
