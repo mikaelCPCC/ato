@@ -18,7 +18,7 @@
     <article class="docs">
         <section>
             <header>
-                <h1>Example 3</h1>
+                <h1>User / Server Timing</h1>
                 <p>Combining User timing and Server Timing</p>
             </header>
            
@@ -30,9 +30,63 @@
         </section>
 
         <section>
-            <h1>Code Breakdown</h1>
-          
-        </section>
+                <h1>Code Breakdown</h1>
+                <div>
+                    <strong>Loading Images</strong>
+                    <p>Here we are asynchronously loading all of the images from our server. The server request will return headers that include server-timings.</p>
+                    <pre>
+                            <code class="javascript">
+
+const loadImages = async () => {
+    return fetch(`/timing`)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error("Data is just not useable for our example");
+        })
+};                                
+                            </code>
+                        </pre>
+                </div>
+                <div>
+                    <strong>Displaying Images</strong>
+                    <p>Once we've received all of our images we are inserting them into our HTML as a fully formed html string</p>
+                    <pre>
+                    <code class="javascript">
+const displayImages = (images) => {
+    const img = images.map(({img}) => `&lt;div&gt;&lt;img src="${img}"/&gt;&lt;/div&gt;`);
+    imageContainer.insertAdjacentHTML('beforeend', img.join(''));
+}   
+                    </code>
+                </pre>
+                </div>
+
+                <div>
+                        <strong>Action</strong>
+                        <p>This is the main method that will handle your request to load each of the images. Our method is marked as async, meaning we can use try / catch / finally with await rather than unrolling a promise</p>
+                        <pre>
+                        <code class="javascript">
+imageButton.addEventListener('click', async (evt) => {
+    const name = ''
+    try {
+        performance.mark(`${name}_start`);
+        const images = await loadImages();    
+        displayImages(images);
+    } catch(err) {
+        console.error('Error occured', err);
+    } finally {
+        performance.mark(`${name}_end`);
+        performance.measure(name, `${name}_start`, `${name}_end`);
+    }
+});
+                        </code>
+                    </pre>
+                    </div>
+
+
+                
+            </section>
     </article>
     <script src="example.js"></script>
 </body>

@@ -18,14 +18,24 @@
     <article class="docs">
         <section>
             <header>
-                <h1>Example 2</h1>
+                <h1>User Timing</h1>
                 <p>User Timing API with a fetch</p>
             </header>
-            <div>
+            <div style="margin-bottom:20px">
             <form id="example-form">
-                <input type="radio" name="speed" value="slow" checked /><label>Slow update</label>
-                <input type="radio" name="speed" value="fast" /><label>Fast update</label>
-                <input type="submit" value="Reload">
+              
+                    <div>
+                        <input type="radio" name="speed" value="slow" checked />
+                        <label>Append elements one at a time</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="speed" value="fast" />
+                        <label>Batch write all html at once</label>
+                    </div>
+               
+                <div class="form-group">
+                    <input type="submit" value="Reload">
+                </div>
             </form>
             </div>
             <div>
