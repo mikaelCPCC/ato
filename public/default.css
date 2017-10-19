@@ -140,3 +140,37 @@ table th {
     color: white;
     border-top-right-radius: 10px;
 }
+.blend {
+    background-color: #fff;
+    background-blend-mode: screen;
+    transition: background-color 0.25s ease-out;
+}
+
+.long {
+    height: 200000px;
+}
+
+.flexBox {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+
+.floatBox {
+    flex: 1;
+    border-right: 1px solid #eee;
+    min-width: 5em;
+    flex: 1;
+}
+
+.bold-checkbox  {
+    margin-bottom: 15px;
+}
+
+.bold-checkbox > label {
+    font-size: 16px;
+    color: #212121;
+}
