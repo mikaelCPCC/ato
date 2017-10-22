@@ -4,7 +4,7 @@ There are 6 examples that can be found that each demonstrate different technique
 
 Checkout the corresponding slides for more information
 
-[https://docs.google.com/presentation/d/1aZ15005YCoWMZNliTD3X8r_k8lH1SSn9QNbBPrk0hxk/edit?usp=sharing] (Companion slides)
+[Companion Slides](https://docs.google.com/presentation/d/1aZ15005YCoWMZNliTD3X8r_k8lH1SSn9QNbBPrk0hxk/edit?usp=sharing)
 
 ## Getting Started
 
