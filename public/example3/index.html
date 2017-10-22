@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/styles/atom-one-light.css">
     <script src="/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <title>Server Timing</title>
+    <title>ATO Example</title>
 </head>
 
 <body>
@@ -63,7 +63,7 @@ const displayImages = (images) => {
                 </div>
 
                 <div>
-                        <strong>Action</strong>
+                        <strong>Main handler</strong>
                         <p>This is the main method that will handle your request to load each of the images. Our method is marked as async, meaning we can use try / catch / finally with await rather than unrolling a promise</p>
                         <pre>
                         <code class="javascript">
@@ -80,6 +80,31 @@ imageButton.addEventListener('click', async (evt) => {
         performance.measure(name, `${name}_start`, `${name}_end`);
     }
 });
+                        </code>
+                    </pre>
+                    </div>
+
+                    <div>
+                        <strong>Server Timing</strong>
+                        <p>NodeJS provides several server timing api's. An API is not required however it does help simplify the logic to wrap start, stop, and output.</p>
+                        <pre>
+                        <code class="javascript">
+// Example server timing header
+// Server-Timing: miss, db=53, app=47.2;
+
+// nodejs library
+const ServerTiming  = require('servertiming');
+
+const timing = new ServerTiming();
+
+// hardcoded metrics
+app.get('/timing', (req, res) => {
+    timing.addMetric("Locking Tractor Beam", 50.0);
+    timing.addMetric("Cheesy Quote", 150.0);
+    timing.addMetric("Applying Lasers", 75.0);
+
+    ...
+
                         </code>
                     </pre>
                     </div>

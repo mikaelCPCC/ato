@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/styles/atom-one-light.css">
     <script src="/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <title>Async Example</title>
+    <title>ATO Example</title>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
         <section>
             <header>
                 <h1>User Timing</h1>
-                <p>User Timing API with a fetch</p>
+                <p>This example illustrates how the UserTiming api works with async operations like fetch. The performance timline will include information about all calls whether they are async or not.</p>
             </header>
             <div style="margin-bottom:20px">
             <form id="example-form">
@@ -57,31 +57,57 @@
         <section>
             <h1>Code Breakdown</h1>
             <div>
-                <strong>User Timing</strong>
-                <p>This is the action we are performing before we complete our mark. You should be able to verify in your user
-                    timing that this operation was performed</p>
+                <strong>Loading Async data</strong>
+                <p>This example is similar to the <a href="/example1">setTimeout</a> example, however instead of using the setTimeout as our async logic, we now use load. The load operation performs a fetch to the backend</p>
                 <pre>
                         <code class="javascript">
-const name = timing.value;
-performance.mark(`${name}_start`);
-sampleIterateAdd();
-setTimeout(() =>{
-    performance.mark(`${name}_end`);
-    performance.measure(name, `${name}_start`, `${name}_end`);
-},timerInt);
+try {
+    
+    // start our performance marker
+    performance.mark('ASYNC_EXAMPLE_START');
+    clearTable(resultsTable);
+    // run our async operation
+    const result = await load();
+    ...
                         </code>
                     </pre>
             </div>
             <div>
-                <strong>Operation</strong>
-                <p>This is the action we are performing before we complete our mark. You should be able to verify in your user
-                    timing that this operation was performed</p>
+                <strong>Loading Data</strong>
+                <p>The data is loaded via fetch</p>
                 <pre>
                 <code class="javascript">
-const sampleIterateAdd = () => {
-    for(let i=0; i < 100; i++) {
-        console.log('Number is now', i);
-    }
+const load = async () => {
+    const cacheBuster = Math.floor(Math.random()*10000);
+    return fetch(`/data/${cacheBuster}`)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error("Data is just not useable for our example");
+        })
+};
+                </code>
+            </pre>
+            </div>
+            <div>
+                <strong>Processing Data</strong>
+                <p>When the data is returned it is processed and inserted accoridng to the form radio option selected. Each operation has different performance characteristics and cause the browsers paint and layout operations to appear different in the performance timeline.</p>
+                <pre>
+                <code class="javascript">
+    ...
+    // try to run a batching update or an inplace dom update
+    const speed = evt.target.speed.value;
+    if (speed === 'slow') {
+        slowPopulateTable(resultsTable, result);
+    } else if ( speed === 'fast' ) {
+        fastPopulateTable(resultsTable, result);
+    }        
+} catch (error) {
+    console.error('oh no!', error);
+} finally {
+    performance.mark('ASYNC_EXAMPLE_END');
+    performance.measure('ASYNC_EXAMPLE', 'ASYNC_EXAMPLE_START', 'ASYNC_EXAMPLE_END')
 }
                 </code>
             </pre>

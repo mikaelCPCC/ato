@@ -12,7 +12,7 @@
     <script src="/highlight.pack.js"></script>
     <script src="underscore_debounce.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <title>Async Example</title>
+    <title>ATO Example</title>
 </head>
 
 <body>
@@ -37,34 +37,66 @@
         <section>
             <h1>Code Breakdown</h1>
             <div>
-                <strong>User Timing</strong>
-                <p>This is the action we are performing before we complete our mark. You should be able to verify in your user
-                    timing that this operation was performed</p>
+                <strong>Slow Scroll handler</strong>
+                <p>The slower version scroll handler modifies the DOM for each child and each scroll event occuring. It doesn't debounce the scroll event so every time there is a minor scroll it will iterate every child. For a few children it may be less perceivable but this can be a major performance loss when dealing with a large number of children. Additionally, the scrollTop used in the rSeed forces a synchronous layout.</p>
                 <pre>
                         <code class="javascript">
-const name = timing.value;
-performance.mark(`${name}_start`);
-sampleIterateAdd();
-setTimeout(() =>{
-    performance.mark(`${name}_end`);
-    performance.measure(name, `${name}_start`, `${name}_end`);
-},timerInt);
+const terribleScrollHandler = () => {
+    const children = [ ...colorBox.children ];
+    
+    // slowest possible version of this call
+    for (let x in children ) {
+        const computedValue = getComputedConstantValue();
+        
+        const child = children[x];
+        const rSeed = scrollDiv.scrollTop;
+        const gSeed = computedValue + Math.random();
+        const bSeed = computedValue + Math.random();
+
+        const r = Math.floor(randomWithSeed(rSeed) * 256);
+        const g = Math.floor(randomWithSeed(gSeed) * 256);
+        const b = Math.floor(randomWithSeed(bSeed) * 256);
+        
+        child.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 1.0)`;
+    }
+}
                         </code>
                     </pre>
             </div>
             <div>
-                <strong>Operation</strong>
-                <p>This is the action we are performing before we complete our mark. You should be able to verify in your user
-                    timing that this operation was performed</p>
+                <strong>Better Scroll handler</strong>
+                <p>This version of the scoll handler debounces the input at 5ms, so it is less affected by rapid scrolling. Additionally all of the changes are batched and applied as a single css style change, requiring only a single dom write. This method also uses the requestAnimationFrame function, forcing the javascript to execute at the beginning of the next frame.</p>
                 <pre>
                 <code class="javascript">
-const sampleIterateAdd = () => {
-    for(let i=0; i < 100; i++) {
-        console.log('Number is now', i);
-    }
-}
+const computedValue = getComputedConstantValue();
+const betterScrollHandler = debounce(()=> {
+    
+    requestAnimationFrame(()=> {
+        
+        const rSeed = scrollDiv.scrollTop;
+        const styles = [ ...colorBox.children ].map((child,idx) => {
+            
+            const gSeed = computedValue + Math.random();
+            const bSeed =computedValue + Math.random();
+    
+            const r = Math.floor(randomWithSeed(rSeed) * 256);
+            const g = Math.floor(randomWithSeed(gSeed) * 256);
+            const b = Math.floor(randomWithSeed(bSeed) * 256);
+            
+            return `
+                #${colorBox.id} > div:nth-child(${idx+1}) {
+                    background-color: rgba(${r}, ${g}, ${b}, 1.0);
+                }
+            `;
+            
+        });
+
+        batchStyle.innerHTML = styles.join('\n')
+    });        
+}, 5, true);
                 </code>
             </pre>
+            <p>It's worth noting that this is only relatively better than the slow scroll handler and demonstrates debouncing and requestAnimationFrame in one easier to read function. Ideally requestAnimationFrame would be broken out into its own update loop and the debounce would only control setting a new value. For information on a much more ideal technique refer to this <a href="https://www.html5rocks.com/en/tutorials/speed/animations/">HTM5 Rocks scrolling</a> article.</a></p>
             </div>
         </section>
     </article>
