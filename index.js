@@ -38,6 +38,19 @@ app.get('/data/:seed', (req, res) => {
     }, 500);
     
 })
+const resp = {hello:'world'};
+app.get('/echo', (req, res)=> res.status(200).json(resp));
+
+app.get('/echo/:time', (req, res) => {
+   
+
+    const time = parseInt(req.params.time, 10) || 0;
+    setTimeout(()=> {
+        res.status(200).json(resp);
+    }, time)
+
+
+})
 
 app.use(express.static('public'));
 
